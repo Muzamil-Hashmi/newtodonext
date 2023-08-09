@@ -1,6 +1,6 @@
 'use client'
-import React from 'react'
-import { sortTodos } from '../../../utils/sortTodo'
+import React, { useState } from 'react'
+import { sortTodos } from '../../../utils/sortTodo';
 
 
 const Table = ({
@@ -8,8 +8,17 @@ const Table = ({
     handleSearch,
     filteredTodos,
     currentPage,
-    countPerPage 
+    countPerPage,
+    handledelete,
+    openUpdateForm,
+
+
 }) => {
+    const [sortAscending, setSortAscending] = useState(true);
+
+    const toggleSortOrder = () => {
+        setSortAscending((prevSortOrder) => !prevSortOrder);
+    };
     return (
         <div className="w-2/3 mx-auto my-20">
             <div className="bg-white shadow-md rounded my-6">
@@ -24,9 +33,18 @@ const Table = ({
 
                     <thead>
                         <tr>
+                            <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+                                Title{" "}
+                                <button
+                                    onClick={toggleSortOrder}
+                                    className="text-blue-500 hover:underline"
+                                >
+                                    {sortAscending ? "▲" : "▼"}
+                                </button>
+                            </th>
 
 
-                            <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Title</th>
+                            {/* <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Title</th> */}
                             <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Actions</th>
                         </tr>
 
@@ -34,24 +52,27 @@ const Table = ({
 
                     <tbody>
                         {
-                            sortTodos(filteredTodos).slice(currentPage, currentPage + countPerPage).map((item) =>
-                            (
-                                <tr className="hover:bg-grey-lighter" key={item.id}>
-                                    <td className="py-4 px-6 text-xl   border-b border-grey-light">{item.title}</td>
-                                    <td className="py-4 px-6 flex  border-b border-grey-light">
-                                        {/* <div className=" border bg-green-500 mx-2 py-2 font-bold py-1 px-3 rounded cursor-pointer hover:bg-green-300" onClick={handleUpdate} >
+
+                            sortTodos(filteredTodos, sortAscending ? 'asc' : 'desc')
+                                .slice(currentPage * countPerPage, (currentPage + 1) * countPerPage)
+                                .map((item) =>
+                                (
+                                    <tr className="hover:bg-grey-lighter" key={item.id}>
+                                        <td className="py-4 px-6 text-xl   border-b border-grey-light">{item.title}</td>
+                                        <td className="py-4 px-6 flex  border-b border-grey-light">
+                                            {/* <div className=" border bg-green-500 mx-2 py-2 font-bold py-1 px-3 rounded cursor-pointer hover:bg-green-300" onClick={handleUpdate} >
                                     Edit
                                 </div> */}
-                                        <a href={`/Edit?id=${item.id}&title=${item.title}`} className="border bg-green-500 py-2 font-bold  px-4 rounded cursor-pointer hover:bg-green-300" onClick={() => openUpdateForm(item.id, item.title)}>
-                                            Edit
-                                        </a>
-                                        <div className=" border bg-red-500 py-2 font-bold px-3 rounded cursor-pointer hover:bg-red-300" onClick={() => handledelete(item.id)}>
-                                            delete
-                                        </div>
-                                    </td>
-                                </tr>
+                                            <a href={`/UpdateForm?id=${item.id}&title=${item.title}`} className="border bg-green-500 py-2 font-bold  px-4 rounded cursor-pointer hover:bg-green-300" onClick={() => openUpdateForm(item.id, item.title)}>
+                                                Edit
+                                            </a>
+                                            <div className=" border bg-red-500 py-2 font-bold px-3 rounded cursor-pointer hover:bg-red-300" onClick={() => handledelete(item.id)}>
+                                                delete
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                            ))
+                                ))
 
                         }
 

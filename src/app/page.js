@@ -8,9 +8,10 @@ import store from '@/store/store';
 const Home = () => {
   return (
     <>
-      <Provider store={store}>
+      
         <HomePage />
-      </Provider>
+       
+     
     </>
   )
 }

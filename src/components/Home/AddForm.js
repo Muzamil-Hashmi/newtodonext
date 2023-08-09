@@ -19,10 +19,13 @@ const AddForm = ({input,setInput,handleadd}) => {
                             id=''
                             value={input}
                             placeholder='Add Data'
-                            onChange={(e) => setInput(e.target.value)} className="block text-sm py-3 px-4 rounded-lg w-full border outline-none" />
+                            onChange={(e) => setInput(e.target.value)}
+                             className="block text-sm py-3 px-4 rounded-lg w-full border outline-none" />
                     </div>
                     <div className="text-center mt-6">
-                        <button className={`py-3 w-64 text-xl text-white bg-purple-400 rounded-2xl ${input === "" ? "disabled" : ""} `} onClick={handleadd}>Add</button>
+                        <button className={`py-3 w-64 text-xl text-white bg-purple-400 rounded-2xl 
+                        ${input === "" ? "disabled" : ""} `} 
+                        onClick={handleadd}>Add</button>
                     </div>
                 </div>
             </div>

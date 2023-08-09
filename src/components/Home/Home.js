@@ -7,9 +7,10 @@ import { addtodos, deleteTodo, updateTodo } from '../../features/todoslice';
 import { v4 as uuidv4 } from 'uuid';
 import { sortTodos } from '../../../utils/sortTodo'
 import Pagination from './Pagination'
+import Edit from '../Edit';
 
 const Home = () => {
-    const todos = useSelector((state) => state.todo.todo);
+        const todos = useSelector((state) => state.todo.todo);
     console.log("todo", todos);
     const [input, setInput] = useState("");
     const [sortBy, setSortBy] = useState("asc"); // Default sort order is ascending
@@ -59,33 +60,42 @@ const Home = () => {
     const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
 
-    const handlePreviousPage = () => {
-        setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
-    };
+    // const handlePreviousPage = () => {
+    //     setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+    // };
 
-    const handleNextPage = () => {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages - 1));
-    };
+    // const handleNextPage = () => {
+    //     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages - 1));
+    // };
   return (
+
     <>
+    <div className='pb-20'>
+
         <AddForm 
         input={input}
-         setInput={setInput}
-         handleadd={handleadd} />
+        setInput={setInput}
+        handleadd={handleadd} />
         <Table 
         searchQuery={searchQuery}
         handleSearch={handleSearch}
         filteredTodos={filteredTodos}
         currentPage={currentPage}
         countPerPage={countPerPage}
+         handledelete ={handledelete}
+         openUpdateForm={openUpdateForm}
+
         />
           <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={(page) => setCurrentPage(page)}
         />
+       
+        </div>
     </>
   )
 }
 
 export default Home
+
